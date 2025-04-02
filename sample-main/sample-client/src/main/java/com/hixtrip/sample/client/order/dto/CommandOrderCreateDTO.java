@@ -1,5 +1,6 @@
 package com.hixtrip.sample.client.order.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommandOderCreateDTO {
+public class CommandOrderCreateDTO {
 
     /**
      * 商品规格id

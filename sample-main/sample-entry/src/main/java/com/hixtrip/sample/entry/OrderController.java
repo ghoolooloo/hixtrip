@@ -1,7 +1,9 @@
 package com.hixtrip.sample.entry;
 
-import com.hixtrip.sample.client.order.dto.CommandOderCreateDTO;
+import com.hixtrip.sample.app.api.OrderService;
+import com.hixtrip.sample.client.order.dto.CommandOrderCreateDTO;
 import com.hixtrip.sample.client.order.dto.CommandPayDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,21 +11,26 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * todo 这是你要实现的
  */
+@RequiredArgsConstructor
 @RestController
 public class OrderController {
-
+    private final OrderService orderService;
 
     /**
-     * todo 这是你要实现的接口
+     * 下单
      *
-     * @param commandOderCreateDTO 入参对象
-     * @return 请修改出参对象
+     * @param commandOrderCreateDTO 入参对象
+     * @return 订单id
      */
     @PostMapping(path = "/command/order/create")
-    public String order(@RequestBody CommandOderCreateDTO commandOderCreateDTO) {
+    public String order(@RequestBody CommandOrderCreateDTO commandOrderCreateDTO) {
         //登录信息可以在这里模拟
-        var userId = "";
-        return "";
+        var userId = "u001"; //假设这是当前登录用户id
+        if (userId.equalsIgnoreCase(commandOrderCreateDTO.getUserId())) {
+            throw new RuntimeException("用户信息不匹配");
+        }
+
+        return orderService.order(commandOrderCreateDTO);
     }
 
     /**
@@ -35,7 +42,7 @@ public class OrderController {
      */
     @PostMapping(path = "/command/order/pay/callback")
     public String payCallback(@RequestBody CommandPayDTO commandPayDTO) {
-        return "";
+        return orderService.payCallback(commandPayDTO);
     }
 
 }

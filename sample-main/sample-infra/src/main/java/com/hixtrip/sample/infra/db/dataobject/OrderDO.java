@@ -1,6 +1,6 @@
-package com.hixtrip.sample.domain.order.model;
+package com.hixtrip.sample.infra.db.dataobject;
 
-import com.hixtrip.sample.domain.strategy.PayStatus;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,19 +10,17 @@ import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * 订单表
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@TableName(value = "orders", autoResultMap = true)
 @SuperBuilder(toBuilder = true)
-public class Order {
-
+public class OrderDO {
     /**
      * 订单号
      */
+    @TableId
     private String id;
 
 
@@ -60,6 +58,7 @@ public class Order {
     /**
      * 删除标志（0代表存在 1代表删除）
      */
+    @TableLogic
     private Long delFlag;
 
     /**
@@ -70,6 +69,7 @@ public class Order {
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
@@ -80,21 +80,6 @@ public class Order {
     /**
      * 修改时间
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
-    /**
-     * 支付成功
-     */
-    public void paySuccess() {
-        this.payStatus = PayStatus.PAID.getName();
-        this.updateBy = "system";
-    }
-
-    /**
-     * 支付失败
-     */
-    public void payFailed() {
-        this.payStatus = PayStatus.PAY_FAIL.getName();
-        this.updateBy = "system";
-    }
 }
